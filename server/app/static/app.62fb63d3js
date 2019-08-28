@@ -1,0 +1,841 @@
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/ 		var executeModules = data[2];
+/******/
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 		// add entry modules from loaded chunk to deferred list
+/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
+/******/
+/******/ 		// run deferred modules when all chunks ready
+/******/ 		return checkDeferredModules();
+/******/ 	};
+/******/ 	function checkDeferredModules() {
+/******/ 		var result;
+/******/ 		for(var i = 0; i < deferredModules.length; i++) {
+/******/ 			var deferredModule = deferredModules[i];
+/******/ 			var fulfilled = true;
+/******/ 			for(var j = 1; j < deferredModule.length; j++) {
+/******/ 				var depId = deferredModule[j];
+/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
+/******/ 			}
+/******/ 			if(fulfilled) {
+/******/ 				deferredModules.splice(i--, 1);
+/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+/******/ 			}
+/******/ 		}
+/******/
+/******/ 		return result;
+/******/ 	}
+/******/
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		"app": 0
+/******/ 	};
+/******/
+/******/ 	var deferredModules = [];
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/static/";
+/******/
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
+/******/
+/******/
+/******/ 	// add entry module to deferred list
+/******/ 	deferredModules.push([0,"chunk-vendors"]);
+/******/ 	// run deferred modules when ready
+/******/ 	return checkDeferredModules();
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ 0:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("56d7");
+
+
+/***/ }),
+
+/***/ "56d7":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+// EXTERNAL MODULE: ./node_modules/vue/dist/vue.runtime.esm.js
+var vue_runtime_esm = __webpack_require__("2b0e");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"5bd7f04d-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=template&id=524433c4&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-app',[_c('v-content',[_c('Home')],1)],1)}
+var staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/App.vue?vue&type=template&id=524433c4&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"5bd7f04d-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vuetify-loader/lib/loader.js!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Home.vue?vue&type=template&id=3c742558&scoped=true&
+var Homevue_type_template_id_3c742558_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('v-container',[_c('v-dialog',{attrs:{"width":"750","max-width":"100%"},on:{"close":_vm.cancleForm},model:{value:(_vm.dialog.open),callback:function ($$v) {_vm.$set(_vm.dialog, "open", $$v)},expression:"dialog.open"}},[_c('v-card',{attrs:{"loading":_vm.dialog.loading}},[_c('v-form',{ref:"form",on:{"submit":function($event){$event.preventDefault();return _vm.submitForm()}},model:{value:(_vm.formData.valid),callback:function ($$v) {_vm.$set(_vm.formData, "valid", $$v)},expression:"formData.valid"}},[_c('v-card-title',{staticClass:"headline grey lighten-2",attrs:{"primary-title":""}},[_vm._v(_vm._s(_vm.dialog.mode)+"สมาชิก")]),_c('v-container',[_c('v-row',[_c('v-col',{attrs:{"cols":"12","md":"4"}},[_c('v-text-field',{attrs:{"rules":_vm.formValidate.required,"label":"ชื่อจริง","required":"","validate-on-submit":"","name":"firstname"},model:{value:(_vm.formData.first_name),callback:function ($$v) {_vm.$set(_vm.formData, "first_name", $$v)},expression:"formData.first_name"}})],1),_c('v-col',{attrs:{"cols":"12","md":"4"}},[_c('v-text-field',{attrs:{"rules":_vm.formValidate.required,"label":"นามสกุล","required":"","name":"lasstname"},model:{value:(_vm.formData.last_name),callback:function ($$v) {_vm.$set(_vm.formData, "last_name", $$v)},expression:"formData.last_name"}})],1),_c('v-col',{attrs:{"cols":"12","md":"4"}},[_c('v-text-field',{attrs:{"rules":_vm.formValidate.email,"label":"อีเมลล์","required":"","name":"email"},model:{value:(_vm.formData.email),callback:function ($$v) {_vm.$set(_vm.formData, "email", $$v)},expression:"formData.email"}})],1),_c('v-col',{attrs:{"cols":"12","md":"4"}},[_c('v-select',{attrs:{"required":"","rules":_vm.formValidate.required,"items":['male','female'],"label":"เพศ","name":"gender"},model:{value:(_vm.formData.gender),callback:function ($$v) {_vm.$set(_vm.formData, "gender", $$v)},expression:"formData.gender"}})],1),_c('v-col',{attrs:{"cols":"12","md":"4"}},[_c('v-text-field',{attrs:{"rules":_vm.formValidate.number,"label":"อายุ","type":"number","required":"","name":"age"},model:{value:(_vm.formData.age),callback:function ($$v) {_vm.$set(_vm.formData, "age", $$v)},expression:"formData.age"}})],1)],1)],1),_c('v-divider'),_c('v-card-actions',[(!!_vm.formResult)?_c('div',[(_vm.formResult==='success')?_c('v-alert',{attrs:{"fullwidth":"","type":"success","variant":"dense"}},[_vm._v(_vm._s((_vm.dialog.mode==='เพิ่ม'?'เพิ่มสมาชิก':'แก้ไขสมาชิก')+'สำเร็จ'))]):_vm._e(),(_vm.formResult==='error')?_c('v-alert',{attrs:{"fullwidth":"","type":"error","variant":"dense"}},[_vm._v(_vm._s((_vm.dialog.mode==='เพิ่ม'?'เพิ่มสมาชิก':'แก้ไขสมาชิก')+'ล้มเหลว'))]):_vm._e(),_c('v-btn',{attrs:{"color":"warning","text":"","type":"button"},on:{"click":function($event){return _vm.cancleForm()}}},[_c('v-icon',[_vm._v("close")]),_vm._v("ปิด\n            ")],1)],1):_vm._e(),(!_vm.formResult)?_c('div',[(_vm.dialog.mode==='เพิ่ม')?_c('v-btn',{attrs:{"color":"primary","text":"","type":"submit","disabled":!_vm.formData.valid},on:{"click":function($event){return _vm.submitForm()}}},[_c('v-icon',[_vm._v("save")]),_vm._v("บันทึก\n            ")],1):_vm._e(),(_vm.dialog.mode!=='เพิ่ม')?_c('v-btn',{attrs:{"color":"success","text":"","type":"submit","disabled":!_vm.formData.valid},on:{"click":function($event){return _vm.submitForm()}}},[_c('v-icon',[_vm._v("edit")]),_vm._v("แก้ไข\n            ")],1):_vm._e(),_c('v-btn',{attrs:{"color":"warning","text":"","type":"button"},on:{"click":function($event){return _vm.cancleForm()}}},[_c('v-icon',[_vm._v("close")]),_vm._v("ยกเลิก\n            ")],1)],1):_vm._e()])],1)],1)],1),_c('v-card',{staticClass:"mx-auto card",attrs:{"max-width":"100%","min-height":"650px"}},[(!_vm.loading)?_c('div',[_c('v-card',{staticStyle:{"margin":"15px","padding":"15px"}},[_c('v-container',[_c('v-row',{attrs:{"no-gutters":""}},[_c('v-col',{staticClass:"pa-2",attrs:{"cols":"6","md":"3"}},[_c('v-text-field',{attrs:{"label":"ID","type":"number"},model:{value:(_vm.searchOption.id),callback:function ($$v) {_vm.$set(_vm.searchOption, "id", $$v)},expression:"searchOption.id"}})],1),_c('v-col',{staticClass:"pa-2",attrs:{"cols":"6","md":"3"}},[_c('v-text-field',{attrs:{"label":"ชื่อ","type":"text"},model:{value:(_vm.searchOption.first_name),callback:function ($$v) {_vm.$set(_vm.searchOption, "first_name", $$v)},expression:"searchOption.first_name"}})],1),_c('v-col',{staticClass:"pa-2",attrs:{"cols":"6","md":"3"}},[_c('v-text-field',{attrs:{"label":"นามสกุล","type":"text"},model:{value:(_vm.searchOption.last_name),callback:function ($$v) {_vm.$set(_vm.searchOption, "last_name", $$v)},expression:"searchOption.last_name"}})],1),_c('v-col',{staticClass:"pa-2",attrs:{"cols":"6","md":"3"}},[_c('v-text-field',{attrs:{"label":"อีเมล","type":"email"},model:{value:(_vm.searchOption.email),callback:function ($$v) {_vm.$set(_vm.searchOption, "email", $$v)},expression:"searchOption.email"}})],1),_c('v-col',{staticClass:"pa-2",attrs:{"cols":"6","md":"3"}},[_c('v-text-field',{attrs:{"label":"อายุ","type":"number"},model:{value:(_vm.searchOption.age),callback:function ($$v) {_vm.$set(_vm.searchOption, "age", _vm._n($$v))},expression:"searchOption.age"}})],1),_c('v-col',{staticClass:"pa-2",attrs:{"cols":"6","md":"3"}},[_c('v-range-slider',{staticClass:"mt-5",attrs:{"step":"1","ticks":"","thumb-label":"always","label":"ช่วงอายุ"},model:{value:(_vm.searchOption.ageRange),callback:function ($$v) {_vm.$set(_vm.searchOption, "ageRange", $$v)},expression:"searchOption.ageRange"}})],1),_c('v-col',{staticClass:"pa-2",attrs:{"cols":"12","md":"3"}},[_c('label',[_vm._v("เพศ")]),_c('div',[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.searchOption.gender),expression:"searchOption.gender"}],attrs:{"type":"checkbox","value":"male"},domProps:{"checked":Array.isArray(_vm.searchOption.gender)?_vm._i(_vm.searchOption.gender,"male")>-1:(_vm.searchOption.gender)},on:{"change":function($event){var $$a=_vm.searchOption.gender,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v="male",$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.searchOption, "gender", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.searchOption, "gender", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.searchOption, "gender", $$c)}}}}),_vm._v(" male\n                "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.searchOption.gender),expression:"searchOption.gender"}],attrs:{"type":"checkbox","value":"female"},domProps:{"checked":Array.isArray(_vm.searchOption.gender)?_vm._i(_vm.searchOption.gender,"female")>-1:(_vm.searchOption.gender)},on:{"change":function($event){var $$a=_vm.searchOption.gender,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v="female",$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.$set(_vm.searchOption, "gender", $$a.concat([$$v])))}else{$$i>-1&&(_vm.$set(_vm.searchOption, "gender", $$a.slice(0,$$i).concat($$a.slice($$i+1))))}}else{_vm.$set(_vm.searchOption, "gender", $$c)}}}}),_vm._v(" female\n              ")])]),_c('v-col',{staticClass:"pa-2",attrs:{"cols":"3","md":"3"}},[_c('v-btn',{attrs:{"color":"warning person_add_btn"},on:{"click":function($event){return _vm.search()}}},[_c('v-icon',[_vm._v("search")]),_vm._v("ค้นหา\n              ")],1)],1)],1)],1)],1),_c('v-btn',{attrs:{"color":"primary person_add_btn"},on:{"click":function($event){return _vm.toggleFormDialog('เพิ่ม')}}},[_c('v-icon',[_vm._v("person_add")]),_vm._v("เพิ่มสมาชิก\n      ")],1),_c('v-data-table',{staticClass:"user-table elevation-2",attrs:{"loading":_vm.tableLoad,"headers":_vm.headers,"items":_vm.users,"options":_vm.paginations,"show-select":"","loading-text":"กำลังโหลด...","rows-per-page":20},on:{"update:options":function($event){_vm.paginations=$event}},scopedSlots:_vm._u([{key:"item.แก้ไข",fn:function(ref){
+var item = ref.item;
+return [_c('v-icon',{staticClass:"mr-2",on:{"click":function($event){return _vm.toggleFormDialog('แก้ไข',item)}}},[_vm._v("edit")]),_c('v-icon',{staticClass:"mr-2",on:{"click":function($event){return _vm.del(item)}}},[_vm._v("delete")])]}}],null,false,2187102901),model:{value:(_vm.selected),callback:function ($$v) {_vm.selected=$$v},expression:"selected"}})],1):_vm._e(),(_vm.loading)?_c('div',{staticClass:"text-center"},[_c('v-progress-circular',{attrs:{"size":70,"color":"green","indeterminate":""}})],1):_vm._e()])],1)}
+var Homevue_type_template_id_3c742558_scoped_true_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./src/components/Home.vue?vue&type=template&id=3c742558&scoped=true&
+
+// CONCATENATED MODULE: ./node_modules/vuetify-loader/lib/loader.js!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Home.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+const api_host = "http://127.0.0.1";
+
+/* harmony default export */ var Homevue_type_script_lang_js_ = ({
+  data: () => ({
+    loading: true,
+    headers: [
+      { text: "ID", value: "id" },
+      { text: "ชื่อ", value: "first_name" },
+      { text: "นามสกุล", value: "last_name" },
+      { text: "อีเมลล์", value: "email" },
+      { text: "เพศ", value: "gender" },
+      { text: "อายุ", value: "age" },
+      { text: "#", value: "แก้ไข" }
+    ],
+    users: [],
+    selected: [],
+    paginations: {
+      page: 1,
+      itemsPerPage: 20,
+      pageStart: 1,
+      pageCount: 2,
+      itemsLength: 50,
+      rowsPerPage: 10
+    },
+    dialog: {
+      open: false,
+      loading: false,
+      mode: "เพิ่ม"
+    },
+    formData: {
+      valid: false,
+      first_name: "",
+      last_name: "",
+      email: "",
+      gender: "",
+      age: ""
+    },
+    formValidate: {
+      required: [v => !!v || "กรุณาใส่ข้อมูล"],
+      email: [
+        v => !!v || "กรุณาใส่อีเมลล์",
+        v => /.+@.+/.test(v) || "อีเมลล์ไม่ถูกต้อง"
+      ],
+      number: [
+        v => !!v || "กรุณาใส่ข้อมูล",
+        v => (/[0-9]/.test(v) && v >= 1) || "กรุณาใส่ตัวเลขและมากกว่า 0"
+      ]
+    },
+    formResult: false,
+    formSuccess: false,
+    searchOption: {
+      first_name: "",
+      last_name: "",
+      gender: [],
+      age: "",
+      email: "",
+      id: null,
+      ageRange: [0, 200]
+    },
+    tableLoad: false
+  }),
+  methods: {
+    resetSearch() {
+      this.searchOption = {
+        first_name: "",
+        last_name: "",
+        gender: [],
+        age: "",
+        email: "",
+        id: null,
+        ageRange: [0, 200]
+      };
+    },
+    async search() {
+      let {
+        first_name,
+        last_name,
+        gender,
+        age,
+        email,
+        id,
+        ageRange
+      } = this.searchOption;
+      let whereMap = [];
+      this.tableLoad = true;
+      if (first_name) whereMap.push(`first_name LIKE '%${first_name}%'`);
+      if (last_name) whereMap.push(`last_name LIKE '%${last_name}%'`);
+      if (id) whereMap.push(`id = ${id}`);
+      if (gender.length > 0)
+        whereMap.push(`gender IN ('${gender.join("','")}')`);
+      if (age) whereMap.push(`age = ${age}`);
+      if (ageRange.length > 0)
+        whereMap.push(`age BETWEEN ${ageRange.join(" AND ")}`);
+      if (email) whereMap.push(`email LIKE '%${email}%'`);
+
+      let [err, res] = await this.$Sync(
+        this.axios.post(`${api_host}/searchUser`, {
+          whereMap: whereMap.join(" AND ")
+        })
+      );
+
+      if (!err && res) {
+        let {
+          data: { data }
+        } = res;
+        this.users = [];
+
+        setTimeout(() => {
+          this.tableLoad = false;
+          this.users = data.map(x => ({
+            id: x[0],
+            first_name: x[1],
+            last_name: x[2],
+            email: x[3],
+            gender: x[4],
+            age: x[5]
+          }));
+        }, 300);
+      }
+    },
+    async getUsersData() {
+      this.tableLoad = true;
+      let [err, res] = await this.$Sync(
+        this.axios.get(`${api_host}/getUserList`)
+      );
+
+      let {
+        data: { data }
+      } = res;
+
+      if (!err) {
+        this.users = data.map(x => ({
+          id: x[0],
+          first_name: x[1],
+          last_name: x[2],
+          email: x[3],
+          gender: x[4],
+          age: x[5]
+        }));
+        this.tableLoad = false;
+        this.loading = false;
+      }
+    },
+    toggleFormDialog(mode = "", val = {}) {
+      let User = { ...val };
+      this.dialog.mode = mode;
+      if (mode === "แก้ไข") {
+        this.formData = User;
+      }
+      this.dialog.open = !this.dialog.open;
+    },
+    async submitForm() {
+      if (this.formData.valid) {
+        this.dialog.loading = true;
+        let { first_name, last_name, email, gender, age, id } = this.formData;
+        let [err, res] = await this.$Sync(
+          this.axios.post(
+            `${api_host}/${
+              this.dialog.mode === "เพิ่ม" ? "createUser" : "editUser"
+            }`,
+            {
+              first_name,
+              last_name,
+              email,
+              gender,
+              age,
+              id
+            }
+          )
+        );
+
+        if (res && !err) {
+          this.formResult = "success";
+          this.$refs.form.reset();
+          this.getUsersData();
+          setTimeout(() => {
+            this.dialog.loading = false;
+          }, 700);
+        } else {
+          this.formResult = "error";
+        }
+      }
+    },
+    cancleForm() {
+      this.dialog = {
+        loading: false
+      };
+      this.formResult = false;
+      this.$refs.form.reset();
+      setTimeout(() => {
+        this.dialog = {
+          mode: "เพิ่ม",
+          open: false
+        };
+      }, 500);
+    },
+    async del(item) {
+      if (confirm("ยืนยันการลบ ?")) {
+        let { id } = item;
+        let [err, res] = await this.$Sync(
+          this.axios.post(`${api_host}/delUser`, { id })
+        );
+        if (!err && res) {
+          alert("ลบสำเร็จ");
+          this.getUsersData();
+        } else {
+          alert("ลบล้มเหลว");
+        }
+      }
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.getUsersData();
+    }, 300);
+  }
+});
+
+// CONCATENATED MODULE: ./src/components/Home.vue?vue&type=script&lang=js&
+ /* harmony default export */ var components_Homevue_type_script_lang_js_ = (Homevue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./src/components/Home.vue?vue&type=style&index=0&id=3c742558&scoped=true&lang=css&
+var Homevue_type_style_index_0_id_3c742558_scoped_true_lang_css_ = __webpack_require__("5864");
+
+// EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
+var componentNormalizer = __webpack_require__("2877");
+
+// EXTERNAL MODULE: ./node_modules/vuetify-loader/lib/runtime/installComponents.js
+var installComponents = __webpack_require__("6544");
+var installComponents_default = /*#__PURE__*/__webpack_require__.n(installComponents);
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VAlert/VAlert.js + 1 modules
+var VAlert = __webpack_require__("0798");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VBtn/VBtn.js
+var VBtn = __webpack_require__("8336");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VCard/VCard.js
+var VCard = __webpack_require__("b0af");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VCard/index.js
+var components_VCard = __webpack_require__("99d9");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VGrid/VCol.js
+var VCol = __webpack_require__("62ad");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VGrid/VContainer.js + 1 modules
+var VContainer = __webpack_require__("a523");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VDataTable/VDataTable.js + 13 modules
+var VDataTable = __webpack_require__("8fea");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VDialog/VDialog.js + 3 modules
+var VDialog = __webpack_require__("169a");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VDivider/VDivider.js
+var VDivider = __webpack_require__("ce7e");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VForm/VForm.js
+var VForm = __webpack_require__("4bd4");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VIcon/VIcon.js
+var VIcon = __webpack_require__("132d");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VProgressCircular/VProgressCircular.js
+var VProgressCircular = __webpack_require__("490a");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VRangeSlider/VRangeSlider.js + 2 modules
+var VRangeSlider = __webpack_require__("5963");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VGrid/VRow.js
+var VRow = __webpack_require__("0fd9");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VSelect/VSelect.js + 20 modules
+var VSelect = __webpack_require__("b974");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VTextField/VTextField.js + 2 modules
+var VTextField = __webpack_require__("8654");
+
+// CONCATENATED MODULE: ./src/components/Home.vue
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(componentNormalizer["a" /* default */])(
+  components_Homevue_type_script_lang_js_,
+  Homevue_type_template_id_3c742558_scoped_true_render,
+  Homevue_type_template_id_3c742558_scoped_true_staticRenderFns,
+  false,
+  null,
+  "3c742558",
+  null
+  
+)
+
+/* harmony default export */ var Home = (component.exports);
+
+/* vuetify-loader */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+installComponents_default()(component, {VAlert: VAlert["a" /* default */],VBtn: VBtn["a" /* default */],VCard: VCard["a" /* default */],VCardActions: components_VCard["a" /* VCardActions */],VCardTitle: components_VCard["b" /* VCardTitle */],VCol: VCol["a" /* default */],VContainer: VContainer["a" /* default */],VDataTable: VDataTable["a" /* default */],VDialog: VDialog["a" /* default */],VDivider: VDivider["a" /* default */],VForm: VForm["a" /* default */],VIcon: VIcon["a" /* default */],VProgressCircular: VProgressCircular["a" /* default */],VRangeSlider: VRangeSlider["a" /* default */],VRow: VRow["a" /* default */],VSelect: VSelect["a" /* default */],VTextField: VTextField["a" /* default */]})
+
+// CONCATENATED MODULE: ./node_modules/vuetify-loader/lib/loader.js!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/App.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ var Appvue_type_script_lang_js_ = ({
+  name: 'App',
+  components: {
+    Home: Home,
+  },
+  data: () => ({
+    //
+  }),
+});
+
+// CONCATENATED MODULE: ./src/App.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_Appvue_type_script_lang_js_ = (Appvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VApp/VApp.js
+var VApp = __webpack_require__("7496");
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/components/VContent/VContent.js + 1 modules
+var VContent = __webpack_require__("a75b");
+
+// CONCATENATED MODULE: ./src/App.vue
+
+
+
+
+
+/* normalize component */
+
+var App_component = Object(componentNormalizer["a" /* default */])(
+  src_Appvue_type_script_lang_js_,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var App = (App_component.exports);
+
+/* vuetify-loader */
+
+
+
+installComponents_default()(App_component, {VApp: VApp["a" /* default */],VContent: VContent["a" /* default */]})
+
+// EXTERNAL MODULE: ./node_modules/vuetify/lib/framework.js + 21 modules
+var framework = __webpack_require__("f309");
+
+// EXTERNAL MODULE: ./node_modules/material-design-icons-iconfont/dist/material-design-icons.css
+var material_design_icons = __webpack_require__("d1e7");
+
+// CONCATENATED MODULE: ./src/plugins/vuetify.js
+
+
+
+
+vue_runtime_esm["a" /* default */].use(framework["a" /* default */])
+
+/* harmony default export */ var vuetify = (new framework["a" /* default */]({
+  icons: {
+    iconfont: 'mdi', // default - only for display purposes
+  },
+}));
+// EXTERNAL MODULE: ./node_modules/axios/index.js
+var axios = __webpack_require__("bc3a");
+var axios_default = /*#__PURE__*/__webpack_require__.n(axios);
+
+// EXTERNAL MODULE: ./node_modules/vue-axios/dist/vue-axios.min.js
+var vue_axios_min = __webpack_require__("a7fe");
+var vue_axios_min_default = /*#__PURE__*/__webpack_require__.n(vue_axios_min);
+
+// CONCATENATED MODULE: ./src/main.js
+
+
+
+
+
+ 
+vue_runtime_esm["a" /* default */].config.productionTip = false
+
+vue_runtime_esm["a" /* default */].use(vue_axios_min_default.a, axios_default.a)
+
+vue_runtime_esm["a" /* default */].prototype.$Sync = (promise) => {
+  return promise.then(data => {
+    return [null, data];
+  }).catch(err => [err]);
+}
+
+new vue_runtime_esm["a" /* default */]({
+  vuetify: vuetify,
+  render: h => h(App)
+}).$mount('#app')
+
+
+/***/ }),
+
+/***/ "5864":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_vuetify_loader_lib_loader_js_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_id_3c742558_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("93e2");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_vuetify_loader_lib_loader_js_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_id_3c742558_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_vuetify_loader_lib_loader_js_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_id_3c742558_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_vuetify_loader_lib_loader_js_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Home_vue_vue_type_style_index_0_id_3c742558_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "93e2":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ })
+
+/******/ });
